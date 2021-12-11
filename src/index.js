@@ -13,7 +13,7 @@ const users = [];
 function checksExistsUserAccount(request, response, next) {
   const { username } = request.headers;
 
-  const user = users.find((user) => (user.username = username));
+  const user = users.find((user) => user.username == username);
 
   if (!user) {
     return response.status(404).json({ error: "User not found" });
@@ -112,9 +112,7 @@ app.delete("/todos/:id", checksExistsUserAccount, (request, response) => {
     return response.status(404).json({ error: "Todo not found" });
   }
 
-  const todos = user.todos.filter((todo) => todo.id != id);
-
-  user.todos = todos;
+  user.todos.splice(todo, 1);
 
   return response.status(204).send();
 });
